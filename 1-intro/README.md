@@ -121,3 +121,35 @@ Por fim, adição e subtração
 Num mesmo nível, avaliados da esquerda para a direita
 
 #### Obs: Algumas linguagens de programação possuem os operadores \*\* ou ^ para representar exponenciação. C++ não suporta esses operadores.
+
+### Fluxo de Controle - Operadores relacionais, comandos de decisão e de repetição
+
+![Operadores de Decisão](./../assets/3.png)
+
+Os operadores relacionais sempre retornam um boolean verdadeiro (true) ou falso (false)
+
+#### Comando IF:
+
+- Se condição é true, corpo do if é executado
+- Se condição é false, corpo do if não é executado
+
+#### Comando IF ELSE:
+
+- Se condição é true, corpo do if é executado
+- Se condição é false, corpo do else é executado
+#### Comando While:
+- O comando while executa repetidamente os comandos definidos em ser corpo enquanto a condição for avaliada como verdadeira.
+  
+Eventualmente é necessário solicitar ao usuário que entre com dados, mas não é possível saber, a priori, a quantidade de valores que serão fornecidos.
+
+É possível resolver isso aliando o comando while com o comando cin. Exemplo:
+
+      While(std::cin >> valor){
+
+      }
+
+std::cin >> valor lê a próxima entrada  para a variável valor e retorna o operando da esquerda (std::cin)
+
+#### Comando For:
+
+O comando for executa repetidamente os comandos definidos em seu corpo enquanto a condição for avaliada como verdadeira. É usado principalmente quando sabemos de antemão quantas repetições serão necessárias
