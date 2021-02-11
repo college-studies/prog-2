@@ -2,41 +2,41 @@
 
 ## ENTRADA E SAÍDA
 
-#### cin -> associado a entrada padrão (teclado)
+cin -> associado a entrada padrão (teclado)
 
-#### cout -> associado a saída padrão (monitor)
+cout -> associado a saída padrão (monitor)
 
-#### cerr -> saída de mensagens de erro
+cerr -> saída de mensagens de erro
 
 ##
 
 ## NAMESPACE - (espaço de nomes)
 
-#### std::
+std::
 
-#### Específica o uso de um nome definido no namespace std
+Específica o uso de um nome definido no namespace std
 
-#### Pode ser removido se o comando using for definido
+Pode ser removido se o comando using for definido
 
 ## OPERADOR DE INSERÇÃO DE STREAM <<
 
 #### ex: std:cout << "hello"
 
-#### passa o valor "hello" para o objeto associado a saída
+passa o valor "hello" para o objeto associado a saída
 
 ## CARACTER DE SCAPE
 
-#### Um Caracter precedido por \ - Indica um caracter especial
+Um Caracter precedido por \ - Indica um caracter especial
 
 ![EscapeCommands](./../assets/1.png)
 
 ## COMANDO RETURN
 
-#### Um dos caminhos para encerrar a execução do programa
+Um dos caminhos para encerrar a execução do programa
 
-#### Quando usando em main() o valor 0 indica que o programa terminou com sucesso
+Quando usando em main() o valor 0 indica que o programa terminou com sucesso
 
-#### - return 0;
+- return 0;
 
 ## FLOW DE EXECUÇÃO C++
 
@@ -52,39 +52,39 @@ Obs: Dependendo do compilador, ao invés de g++, utilize gcc no momento da compi
 
 ## TIPOS PRIMITIVOS PRÉ DEFINIDOS, VARIÁVEIS E OPERADORES ARITMÉTICOS
 
-#### Um tipo define a forma de armazenamento e conteúdo do dado. Traduzindo, em C++ você precisa especificar qual o tipo de dado que você esta trabalhando.
+Um tipo define a forma de armazenamento e conteúdo do dado. Traduzindo, em C++ você precisa especificar qual o tipo de dado que você esta trabalhando.
 
-#### Uma variável é uma referência a uma instância de um dado tipo em memória.
+Uma variável é uma referência a uma instância de um dado tipo em memória.
 
 #### Esses tipos podem ser:
 
-##### primitivos: inteiros, caracteres...
+primitivos: inteiros, caracteres...
 
-##### abstratos: cout, cin... - objetos
+abstratos: cout, cin... - objetos
 
 ### TIPOS DE DADOS PRIMITIVOS COMUNS:
 
-#### int - números inteiros
+int - números inteiros
 
-#### char - caracteres
+char - caracteres
 
-#### float - números em ponto flutuante de precisão simples
+float - números em ponto flutuante de precisão simples
 
-#### double - números em ponto flutuante de precisão dupla
+double - números em ponto flutuante de precisão dupla
 
-#### bool - true or false ( 0 ou 1 )
+bool - true or false ( 0 ou 1 )
 
 ### Variáveis são declaradas com um tipo e um nome
 
-#### int var1;
+int var1;
 
-#### int idade;
+int idade;
 
-#### float nota1,nota2;
+float nota1,nota2;
 
-#### char meuNome;
+char meuNome;
 
-Obs: Nomes de variáveis podem incluir letras, dígitos e underscores, mas NÃO podem começar com dígito e são case-sensitive.
+#### Obs: Nomes de variáveis podem incluir letras, dígitos e underscores, mas NÃO podem começar com dígito e são case-sensitive.
 
 ### OPERADORES ARITMÉTICOS E ATRIBUIÇÕES:
 
