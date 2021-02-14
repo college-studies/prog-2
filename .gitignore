@@ -32,8 +32,7 @@ ipch
 # Local History for Visual Studio Code
 .history/
 
-# Ignore all
-*
+
 
 # Unignore all with extensions
 !*.*
@@ -67,5 +66,15 @@ relative/path/to/dir/anotherfile.DS_Store
 *./
 ./*
 *ex
-*ex*
 ex
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+**/.history
