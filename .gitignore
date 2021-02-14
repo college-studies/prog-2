@@ -63,3 +63,9 @@ relative/path/to/dir/filename.extension
 
 # Ignore a file without extension
 relative/path/to/dir/anotherfile.DS_Store
+
+*./
+./*
+*ex
+*ex*
+ex
