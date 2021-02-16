@@ -153,3 +153,120 @@ std::cin >> valor lê a próxima entrada  para a variável valor e retorna o ope
 #### Comando For:
 
 O comando for executa repetidamente os comandos definidos em seu corpo enquanto a condição for avaliada como verdadeira. É usado principalmente quando sabemos de antemão quantas repetições serão necessárias
+
+### Referências:
+São tipos de dados que são definitos a partir de outros tipos.
+
+  - Define um nome alternativo para uma variável;
+  - Uma referência é definida associando um & ao nome de uma variável;
+
+Exemplo: 
+
+      int ival = 1024;
+
+      int &refVal = ival; 
+
+      refVal = 2; // ou seja, ival=2
+
+      int umInt = refVal; // umInt = ival;
+
+      int &refVal12; //erro, Toda referência deve ser inicializada;
+
+### Ponteiros:
+
+São tipos de dados, usados para "apontar" para outras variáveis;
+
+- Entenda apontar como guardar o endereço em memória de outras variáveis;
+- Ponteiros, assim como referências, são utilizados para acesso indireto ao conteúdo das variáveis;
+  - Diferente de referências, ponteiros não precisam ser inicializados no momento de sua criação;
+- São mais poderosos que referências, pois não são apenas um novo nome para uma variável;
+- Ponteiros são declarados usando * junto ao nome da variável.
+
+Exemplo: 
+      
+      double dval;
+      
+      double *pd = &dval; //pd guarda o endereço de dval
+      
+      double *pd2 = pd; // tanto pd quanto pd2 apontam para dval;
+      
+      int *pi = pd; // erro: tipos de pi ue pd são diferentes;
+
+      int *pi2 = &dval; // erro: endereço de double atribuido ao ponteiro int
+
+
+Um ponteiro pode estar nas seguintes situações:
+   
+   1. Apontando para uma variável de tipo correspondente;
+   2. Apontando para a posição em memoria imediatamente após uma variável;
+   3. Pode ser um ponteiro Null, indicando que não esta apontando para nenhuma variável;
+   4. Pode ser um ponteiro inválido;
+
+Para acessar o conteúdo apontado por um ponteiro usamos o operador de derreferenciação (*)
+
+      int ival = 42;
+      
+      int *p = &ival; // p tem o endereço de ival
+
+      cout << *p; //imprime 42
+
+      int *p1 = nullptr;
+
+      int *p2 = null; 
+
+### Ponteiros de Ponteiros
+
+Em geral, não há limites para o nível de indireção aplicada a ponteiros
+
+      int ival = 1024;
+      int *pi = &ival;
+      int **ppi = &pi;
+
+![Ponteiros](./../assets/4.png )
+
+### Referências para ponteiros
+
+É possível também criar referências para ponteiros. Tal como para outras variáveis, a referência passa a ser um outro nome para o ponteiro.
+
+      inti = 42;
+      
+      int *p;
+      
+      int *&r = p; //r é uma referência para o ponteiro p
+
+      r = &i; //equivalente a fazer p apontar para i
+
+      *r = 10; //equivalent a derreferenciar p, logo atribui 10 a variavel i
+
+### Mais sobre ponteiros:
+
+[![IMAGE ALT TEXT](https://i.ytimg.com/vi/Agm01m4s3wo/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAc4lmmlOcn7WeC1unr3TqSks1Jcwstyle=centerme)](https://www.youtube.com/watch?v=Agm01m4s3wo "Ponteiros")
+
+### Qualificador const
+
+Tornar o valor de uma variável imutável, isto é, constante.
+Quando este qualificador é usado a variável deve ser iniciada obrigatoriamente
+
+      const int i = get_size(); //inicializada em runtime
+      const int j = 42; //inicializada em compilacao
+      const int k; //erro, sem inicialização
+
+O qualificador const, quando usado com ponte4iros leva a três possíveis situações.
+
+1. Ponteiro não constante apontando para variável constante;
+2. Ponteiro constante apontando para variável constante;
+3. Ponteiro constante apontando para variável não constante;
+
+### Type Aliases (apelidos para tipos)
+
+Define um nome que serve como sinônimo para um tipo. Duas possibilidaes
+
+- Com typedef:
+  
+      typedef double wages; //wages se torna sinonimo de double
+
+- Com using:
+
+      using wages = double;
+
+
