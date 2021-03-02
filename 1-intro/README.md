@@ -154,6 +154,47 @@ std::cin >> valor lê a próxima entrada  para a variável valor e retorna o ope
 
 O comando for executa repetidamente os comandos definidos em seu corpo enquanto a condição for avaliada como verdadeira. É usado principalmente quando sabemos de antemão quantas repetições serão necessárias
 
+### Strings
+
+As cadeias de caracteres são gerenciadas pela classe string, acessível pela biblioteca < string >
+      
+      #include <string>
+      using std:string;
+
+![Strings](./../assets/6.png )
+
+### Strings - Leitura e Escrita
+
+Utiliza os mesmos operadores de entrada e saída < iostream >
+
+### Strings - Operadores
+
+![Operações com Strings](./../assets/7.png )
+
+### Strings - Leitura e Escrita de linhas 
+
+Para leitura de strings separadas por espaço, descartando \n
+
+      int main()
+      {
+            string line;
+            //read input a line at a time until end-of-file;
+            while(getline(cin,line))
+                  cout << line << endl;
+            return 0;
+      }
+
+### Strings - Acessando Caracteres
+
+      string str('some string')
+      for (auto c : str)
+            cout << c << endl;
+
+### Strings - Funções para caracteres
+
+![Funções para caracteres](./../assets/8.png )
+
+
 ### Referências:
 São tipos de dados que são definitos a partir de outros tipos.
 
@@ -171,6 +212,22 @@ Exemplo:
       int umInt = refVal; // umInt = ival;
 
       int &refVal12; //erro, Toda referência deve ser inicializada;
+
+### Structs:
+
+      struct Sales_data {
+            std::string bookNo;
+            unsigned units_sold = 0;
+            double revenue = 0.0; 
+      };
+
+      int main(){
+            Sales_data data1, data2;
+            
+            std::cin > data1.bookNo >> data1.units_sold >> price;
+
+            data1.revenue = data1.units_sold * price;
+      }
 
 ### Ponteiros:
 
@@ -269,4 +326,72 @@ Define um nome que serve como sinônimo para um tipo. Duas possibilidaes
 
       using wages = double;
 
+### Funções - passagem de parâmetros:
 
+Cada vez que uma função é invocada, seus parâmetros são criados e inicializados pelos argumentos passados na chamada
+
+  - Quando um parâmetro é uma referência, dizemos que o argumento é passado por referência;
+  - Quando o valor do argumento é copiado, parâmetro e argumento são objetos independentes, configurando umas passagem por valor.
+
+### Funções - passagem por valor:
+
+      int fact(int val){
+            int ret = 1;
+            while(val > 1)
+                  return *= val--;
+            return ret;
+      }
+
+      int main(){
+            int j = fact(5);
+            cout << "5! is = " << j << endl;
+
+            return 0;
+      }
+
+### Funções - ponteiros como parâmetro:
+
+  - Ponteiros se comportam como qualquer tipo não-referenciável
+  - Entretanto, um ponteiro também dará acesso indireto ao objeto apontado;
+
+
+			void reset(int *ip){
+				*ip = 0;
+				ip = 0;
+			}
+
+			int i = 42;
+			reset(&i);
+
+			cout << "i = " << i << endl;
+            
+### Funções - ponteiros como referência:
+
+		void reset(int &i){
+			i = 0;
+		}
+
+		int j = 42;
+		reset(j)
+
+		cout << "j = " << j << endl;
+
+### Funções - passagem por referência:
+
+  Utilidades:
+  - Evitar cópia de dados potencialmente grandes;
+  - "Retornar" mais de um parâmetro
+
+		string::size_type find_char(const string &s, char c, string::size_type &occurs){
+			auto ret = s.size();
+			occurs = 0;
+
+			for(decltype(ret) i = 0; i != s.size(); i++){
+				if(s[i] == c){
+					if(ret == s.size())
+						ret = i;
+					++occurs;	
+				}
+			}
+			return ret;
+		}
