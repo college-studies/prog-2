@@ -1,4 +1,4 @@
-//1. Escreva um programa para ler duasstringse informar qual das duas s ̃ao maiores ou se s ̃ao iguais.
+//1. Escreva um programa para ler duas stringse informar qual das duas s ̃ao maiores ou se s ̃ao iguais.
 #include <iostream>
 #include <string>
 
