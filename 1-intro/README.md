@@ -395,3 +395,83 @@ Cada vez que uma função é invocada, seus parâmetros são criados e inicializ
 			}
 			return ret;
 		}
+
+### Alocação Dinâmica de Memória em C++ :
+
+- A memória é divida em duas partes em C++
+
+- Stack (Pilha) : Todas as variáveis declaradas dentro do escopo da função irão ocupar espaço na pilha;
+- Heap: Parte de memória não utilizada pelo programa e que poderá ser utilizada para alocar memória dinamicamente enquanto o programa é executado.
+
+- Por que é tão util ? 
+  - Muitas vezes não sabemos quanto de memória nosso programa precisara utilizar, dessa forma podemos fazer com que a memória seja inserida dinamicamente conforme a necessidade.
+
+- Podemos alocar a memória em tempo de execução no heap para a variável usando um operador especial em C++ que retorna o endereço do espaço alocado. Esse operador é chamado de *new*
+
+- Caso não necessite mais da memória basta utilizar o operador *delete*, desalocando a memória anteriormente alocada com o operador *new*.
+
+- Sintaxe Geral para alocação: 
+
+      new data-type;
+      double* pvalue = NULL; // ponteiro inicializado com valor nulo
+      pvalue = new double; // solicita alocação de memória para a variável;
+
+- Como checar se a memória foi alocada corretamente: 
+  
+      double* pvalue = NULL;
+      if(!(pvalue = new double)){
+            cout << "Error: out of memory." << endl;
+            exit(1);
+      }
+
+OBS: A função *malloc()* do C ainda existe em C++. Porém é recomendado evita-lá. A principal vantagem do *new* em relaçãoao *malloc()* é que o *new* não apenas aloca memória, mas constrói objetos, o que é o próposito principal do C++;
+
+- Para deletar a memória, em caso de não precisar mais dela alocada, basta usar o delete;
+
+      delete pvalue; // libera o espaço de memória apontado para pvalue;
+
+Exemplo completo: 
+
+      #include <iostream>
+      using namespace std;
+
+      int main(){
+            double* pvalue = NULL;
+            pvalue = new double;
+
+            *pvalue = 29494.99;
+            cout << "Value of pvalue: " << pvalue << endl;
+
+            delete pvalue;
+
+            return 0;
+      }
+
+- Alocando dinamicamente em Arrays: 
+
+      char* pvalue = NULL;
+      pvalue = new char[20];
+
+      delete [] pvalue;
+
+- Alocando dinamicamente para objetos:
+
+      #include <iostream>
+      using namespace std;
+
+      class Box{
+            public:
+                  Box(){
+                        cout << "Constructor called! " << endl;
+                  }     
+                  ~Box(){
+                        cout << "Destructor Called !" << endl;
+                  }
+      };
+
+      int main(){
+            Box* myBoxArray = new Box[4];
+            delete [] myBoxArray;
+
+            return 0;
+      }
