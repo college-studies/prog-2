@@ -4,16 +4,17 @@
 
 using namespace std;
 
-int main(){
+int main()
+{
 
   string word, invWord;
-  
-  cout << "Type a word: ";
+
   cin >> word;
 
-  for(int i = word.length() ; i >= 0; i--){
+  for (int i = word.length() - 1; i >= 0; i--)
+  {
     invWord += word[i];
-
-  cout << invWor d << endl;
   }
+
+  cout << invWord << endl;
 }
