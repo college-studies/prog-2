@@ -164,3 +164,67 @@ Exemplo:
   - Parâmetros são passados quando o método é invocado
 
 ![Classes em c++](./../assets/20.png)
+
+### Interface Pública VS Implementação
+
+- A interface pública de um objeto contém os membros visíveis a outros objetos
+  - Declarados com o modificador de acesso *public*
+- A implementação de um objeto contém os membros privados do objeto
+  - Vísiveis apenas dentro dos objetos onde eles foram declarados
+  - Declarados com o modificador de acesso *private*
+- A distinção entre interface pública e implementação é chamade de *encapsulamento*
+
+### Encapsulamento
+
+  - Separa os aspectos externos de um objeto dos detalhes internos de implementação do objeto
+  - Evita que pequenas mudanças possam ter grandes efeitos colaterais
+  - Permite que a implementação possa ser modificada sem afetar as aplicações que usam o objeto
+
+![Encapsulamento](./../assets/21.png)
+![Encapsulamento](./../assets/22.png)
+
+Em geral, métodos de uma classe são dos seguintes tiposÇ
+  - Seletores (get)
+  - Modificadores (set)
+  - Construtores 
+
+### Construtores
+
+  - Evocados quando se pretende criar uma nova instância da classe
+  - Possuem declaração especial:
+    - Mesmo nome da classe
+    - Não fazem menção a valores de retorno
+  - Podem exigir parâmetros, usados para inicialização
+  - Classes Podem possuir mais de um construtor
+
+![Construtores](./../assets/23.png)
+
+### Seletores
+
+  - Permitem obter os valores guardados nas variáveis de instância
+  - Geralmente possuem argumento vazio e limitam-se a devolver o valor de um atributo
+  - Habitualmente designados pela palavra get seguida pelo nome do atributo
+  
+![Seletores](./../assets/24.png)
+
+### Modificadores 
+
+  - Permitem alterar os valores das variáveis de instância
+  - Geralmente têm como argumento o novo valor a atribuir
+  - Não devolvem qualuer valor
+  - Habitualmente designados pela palavra set seguido pelo nome do atributo
+
+
+ ![Modificadores](./../assets/25.png)
+
+ ### Destruidores
+
+  - Função membro de uma classe delete um objeto
+  - Automaticamente invocados quando um objeto é destruido
+    - Quando o escopo de utilização é encerrado
+  - Não possui argumentos nem retorno, nem mesmo void
+  - Definidos por padrão nas classes quando não declarados
+  - Necessário quando a classe manipula dinamicamente a memória
+  
+  
+![Destrutores](./../assets/26.png)
