@@ -84,35 +84,36 @@ int main()
   EmployeeUndergraduate e9("ID 9", "Fulano I", "Elementary School I", "HighSchool J", "College J");
   EmployeeUndergraduate e10("ID 10", "Fulano K", "Elementary School K", "HighSchool K", "College K");
 
-  vector<Employee *> employees;
+  vector<Employee *> elementaryEmployees;
 
-  employees.push_back(&e1);
-  employees.push_back(&e2);
-  employees.push_back(&e3);
-  employees.push_back(&e4);
+  elementaryEmployees.push_back(&e1);
+  elementaryEmployees.push_back(&e2);
+  elementaryEmployees.push_back(&e3);
+  elementaryEmployees.push_back(&e4);
 
-  for (auto e : employees)
+  for (auto e : elementaryEmployees)
   {
     ElementarySalary += e->getSalary();
   }
 
-  employees.clear();
-  employees.push_back(&e5);
-  employees.push_back(&e6);
-  employees.push_back(&e7);
-  employees.push_back(&e8);
+  vector<Employee *> highSchoolEmployees;
 
-  for (auto e : employees)
+  highSchoolEmployees.push_back(&e5);
+  highSchoolEmployees.push_back(&e6);
+  highSchoolEmployees.push_back(&e7);
+  highSchoolEmployees.push_back(&e8);
+
+  for (auto e : highSchoolEmployees)
   {
     HighSchoolSalary += e->getSalary();
   }
 
-  employees.clear();
+  vector<Employee *> undergraduateEmployees;
 
-  employees.push_back(&e9);
-  employees.push_back(&e10);
+  undergraduateEmployees.push_back(&e9);
+  undergraduateEmployees.push_back(&e10);
 
-  for (auto e : employees)
+  for (auto e : undergraduateEmployees)
   {
     CollegeSalary += e->getSalary();
   }
