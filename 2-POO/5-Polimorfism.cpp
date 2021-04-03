@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -34,9 +35,22 @@ public:
 
 int main()
 {
-  Empregado e("Fulano", 123, 2500.00);
-  Gerente g("Beltrano", 999, 5000.00, 1000.00);
+  Empregado e1("Fulano", 123, 2500.00);
+  Empregado e2("Siclano", 777, 3500.00);
+  Gerente g1("Beltrano", 999, 5000.00, 1000.00);
+  Gerente g2("Trajano", 888, 8000.00, 500.00);
+  double totalSalario = 0.0;
 
-  cout << e.getSalario() << endl;
-  cout << g.getSalario() << endl;
+  vector<Empregado *> funcionarios;
+  funcionarios.push_back(&e1);
+  funcionarios.push_back(&e2);
+  funcionarios.push_back(&g1);
+  funcionarios.push_back(&g2);
+
+  for (auto f : funcionarios)
+  {
+    totalSalario += f->getSalario();
+  }
+
+  cout << totalSalario << endl;
 }
