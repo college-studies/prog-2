@@ -228,3 +228,10 @@ Em geral, métodos de uma classe são dos seguintes tiposÇ
   
   
 ![Destrutores](./../assets/26.png)
+
+ ### Herança
+  - Permite criar novas classes a partir de classes existentes
+  - A classe que herda (subclasse) reutiliza os atributos e métodos da classe herdada (superclasse)
+  - A subclasse (classe derivada) pode adicionar novos atributos ou métodos, além de sobrescrever métodos da superclasse (classe base)
+  
+![Herança](./../assets/27.png)
