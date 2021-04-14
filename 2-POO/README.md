@@ -235,3 +235,68 @@ Em geral, métodos de uma classe são dos seguintes tiposÇ
   - A subclasse (classe derivada) pode adicionar novos atributos ou métodos, além de sobrescrever métodos da superclasse (classe base)
   
 ![Herança](./../assets/27.png)
+
+ ### FUNÇÃO AMIGA
+
+ Definição: 
+
+   - Função definida fora de uma classe, mas que possui acesso aos membros privados e protegidos dela 
+   - Acessa a implementação como um membro da classe, sem o ser
+   - Mesmo definida fora, deve ter seu protótipo declarado internamente á classe
+
+Princpais utilidades:
+
+  - Casos especiais onde membros privados da classe precisam ser acessados sem o uso de objetos desta;
+  - Sobrecarga de operadores
+
+Outros exemplos de uso: 
+
+  - Definição de um operador/função que multiplica uma matriz por um vetor, onde ambos são classes diferentes;
+  - Cada um possui sua respectiva representação e provê um conjunto de operações para manipular objetos do mesmo tipo
+  - A rotina de multiplicação, se inserida como membro das classes, exigiria a implementação em ambas e acesso aos dados privados
+    - Também exigiria a invocação a partir de objetos de uma das duas classes
+  - O acesso a atributos de classes não é recomendado ser público
+  - Solução: Declarar uma função de multiplicação como *amiga* de ambas
+
+### SEPARANDO DEFINIÇÃO DE IMPLEMENTAÇÃO
+
+A definição de classes em C++ é comumente divídida em dois arquivos separados (e ambos fora do arquivo de utilização destas):
+
+  - A descrição da classe, com seus atributos e protótipos dos métodos costuma vir num arquivo .h 
+  - A implementação dos métodos vem num arquivo .cpp com o nome da classes
+
+Benefícios:
+
+  - Se a implementação da classe não mudar, não precisa ser recompilada
+  - Separação entre implementação e utilização explicita
+  - Organização do código
+
+### Uso do #ifndef
+
+  - Algumas vezes podemos incluir um arquivo de cabeçalho múltiplas vezes
+  - O compilador pode entender como se estivéssemos tentando redefinir alguma coisa novamente
+  - Solução: Informar ao compilador (diretiva) que a biblioteca Num não deve ser redefinida se ja o foi
+
+![IFNDEF](./../assets/28.png)
+
+### SEPARANDO DE FATO
+
+Compile cada arquivo .cpp num arquivo object (.o) que contém o código de máquina para aquele arquivo:
+  - g++ -c main.cpp Num.cpp
+
+Realize o link entre os arquivos e o executável:
+  - g++ main.o Num.o
+
+Se apenas o executável mudar, compile apenas ele:
+  - g++ -c main.cpp 
+
+Depois, linke-os novamente:
+  - g++ main.o Num.o
+
+### CRIANDO O ARQUIVO MAKE
+
+Arquivo que define as dependências do programa e o que precisa ser compilado
+  - Processo automatizado por IDES
+
+  - Quando invocado, compila apenas o que foi modificado 
+  - Permite a limpeza dos arquivos de saída para recompilação
