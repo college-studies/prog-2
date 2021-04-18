@@ -293,10 +293,187 @@ Se apenas o executável mudar, compile apenas ele:
 Depois, linke-os novamente:
   - g++ main.o Num.o
 
-### CRIANDO O ARQUIVO MAKE
+### CRIANDO O ARQUIVO MAKE:
 
 Arquivo que define as dependências do programa e o que precisa ser compilado
   - Processo automatizado por IDES
 
   - Quando invocado, compila apenas o que foi modificado 
   - Permite a limpeza dos arquivos de saída para recompilação
+
+
+### NAMESPACES:
+
+Poluição do espaço de nomes:
+
+  - Programas grandes tendem a utilizar bibliotecas independentes
+  - Bibliotecas independentes tendem a definir grande quantidade de nomes globais, classes, funções e etc.
+  - Situação em que se torna comum a colisão entre nomes, devido á poluição do espaço de nomes;
+
+
+Solução Ultrapassada:
+
+  - Programadores evitavam tal poluição utilizando nomes muito grandes para entidades globais
+  - Os nomes continham prefixo indicando qual biblioteca havia definido o nome:
+  
+```cpp
+  class cplusplus_primer_Query { ... };
+  string cplusplus_primer_make_plural(size_t, string&);
+```
+
+### NAMESPACES:
+
+  - A definição de espaços de nomes provê um mecanismo muito mais controlável para a prevenção de colisões
+  - Particiona o espaço de nomes global, criando um escopo
+  - A definição de bibliotecas dentro de um espaço reservado permite que programadores possam definir nomes independentes do escopo global;
+  
+
+### NAMESPACE - DEFINIÇÃO:
+
+  - Começa com a palavra chave *namespace* seguida da definição do nome
+  - Na sequência, vem as declarações e definições delimitadas entre chaves;
+
+```cpp
+  namespace cplusplus_primer {
+    class Sales_data { /* .... */};
+    Sales_data operator+(const Sales_data&, const Sales_data&);
+    class Query { /* ... */};
+    class Query_base { /* ... */};
+  } // like blocks, namespaces do not end with a semicolon;
+```
+
+### NAMESPACE - ESCOPO:
+
+  - Cada novo namespace introduz um escopo diferente, podendo então ter membros com o mesmo nome;
+  - Podem ser acessados diretamente por outros membros de outros espaços de nome;
+  - Podem ser descontínuos
+
+```cpp
+  cplusplus_primer::Query q = cplusplus_primer::Query("hello");
+  AddisonWesley::Query q = AddisonWesley::Query("hello");
+```
+
+#### Separação Interface/Implementação:
+
+  - Atua junto da estratégia de separação de interface e implementação em arquivos separados
+
+![Separação Interface/Implementação](./../assets/29.png)
+
+### NAMESPACE - DEFINIÇÃO DE MEMBROS:
+
+  - Códigos internos a um espaço de nomes podem usar a forma curta dos nomes
+
+```cpp
+  namespace cplusplus_primer {
+    //reopen cplusplus_prinmer
+    //members defined inside the namespace may use unqualified names
+    std::istrem&
+    operator >> (std::istream& in, Sales_data& s) { /* ... */}
+  }
+```
+
+  - Também é possível definir um membro de um ns fora dele:
+
+```cpp
+  // namespace members defined outside the namespace must use qualified names
+  cplusplus_primer::Sales_data
+  cplusplus_primer::operator+(const Sales_data&, lhs,
+  const Sales_data& rhs) 
+  {
+    Sales_Data ret(lhs);
+    // ...
+  }
+```
+
+### NAMESPACE - Global e aninhamento:
+
+  - Implicitamente declarado, pode ser referenciado pelo operador de escopo (sem nome) -> ::member_name
+  - Podem ser aninhados:
+
+```cpp
+  namespace cplusplus_primer {
+    //first nested namespace: defines the Query portion of the library
+    namespace QueryLib {
+      class Query { /* ... */};
+      Query operator&(const Query&, const Query&);
+      // ...
+    }
+    // second nested namespace: defines the Sales_data portion of the library
+    namespace Bookstore {
+      class Quote { /* ... */};
+      class Disc_quote : public Quote { /* ... */};
+      // . . . 
+    }
+  }
+
+  cplusplus_primer::QueryLib::Query
+```
+
+### NAMESPACE - ALIASES:
+
+  - Permite associar um sinônimo mais curto a um ns definido
+
+
+```cpp
+  namespace cplusplus_primer { /* ... */};
+
+  namespace primer = cplusplus_primer;
+
+  namespace Qlib = cplusplus_primer::QueryLib;
+  Qlib::Query q;
+```
+
+#### A DECLARAÇÃO USING:
+
+  - Permite apresentar a utilização de um namespace por vez
+  - Nomes introduzidos pela declaração obedecem regras normais de escopo:
+    - São visíveis desde a declaração até o final do escopo onde a declaração aparece
+    - Entidades com o mesmo nome definido em um escopo externo são escondidas
+    - Nomes não qualificados podem ser usados somente dentro do escopo onde houve a declaração
+    - Encerrando o escopo, nomes qualificados devem ser utilizados
+
+```cpp
+  #include <iostream>
+  #include <string>
+
+  using std::string;
+
+  int main() {
+    string str = 'Example';
+    using std::cout;
+    cout << str;
+  }
+```
+
+### A DIRETIVA USING:
+
+  - Diferente da declaração, permite usar a forma não qualificada de todos os nomes definidos em um namespace
+  - Seu uso indiscriminado reintroduz os problemas de colisão inerentes a utilização de múltiplas bibliotecas
+
+### A DIRETIVA USING - ESCOPO:
+
+  - Torna o espaço de nomes disponível desde o escopo global do programa
+
+```cpp
+  // namespace A and function f are defined at global scope
+  namespace A {
+    int i, j;
+  }
+  
+  void f() {
+    using namespace A;
+
+    // injects the names from A into the global scope
+
+    cout << i * j << endl; //uses i and j from namespace A
+    // ...
+  }
+```
+
+### A DIRETIVA USING - PRECAUÇÕES:
+
+  - Reintroduz riscos a colisão de nomes em programas grandes;
+  - Torna programas vulneráveis a atualização de biblitoecas que venham a declarar nomes conflitantes;
+  - Erros de longo prazo podem aparecer á medida que a biblitoeca for sendo mais explorada
+  - Uso da declaração é mais indicado, pois oferece maior controle sobre erros;
+  - Diretivas são mais úteis nos arquivos de implementação do próprio contexto do namespace;
