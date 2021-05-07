@@ -301,8 +301,7 @@ Arquivo que define as dependências do programa e o que precisa ser compilado
   - Quando invocado, compila apenas o que foi modificado 
   - Permite a limpeza dos arquivos de saída para recompilação
 
-
-### NAMESPACES:
+## NAMESPACES:
 
 Poluição do espaço de nomes:
 
@@ -320,8 +319,6 @@ Solução Ultrapassada:
   class cplusplus_primer_Query { ... };
   string cplusplus_primer_make_plural(size_t, string&);
 ```
-
-### NAMESPACES:
 
   - A definição de espaços de nomes provê um mecanismo muito mais controlável para a prevenção de colisões
   - Particiona o espaço de nomes global, criando um escopo
@@ -423,7 +420,7 @@ Solução Ultrapassada:
   Qlib::Query q;
 ```
 
-#### A DECLARAÇÃO USING:
+### A DECLARAÇÃO USING:
 
   - Permite apresentar a utilização de um namespace por vez
   - Nomes introduzidos pela declaração obedecem regras normais de escopo:
@@ -477,3 +474,408 @@ Solução Ultrapassada:
   - Erros de longo prazo podem aparecer á medida que a biblitoeca for sendo mais explorada
   - Uso da declaração é mais indicado, pois oferece maior controle sobre erros;
   - Diretivas são mais úteis nos arquivos de implementação do próprio contexto do namespace;
+
+## SOBRECARGA DE OPERADORES
+
+### Definição:
+Caso especial de polimorfismo onde diferentes operadores possuem
+diferentes implementações dependendo de seus argumentos
+
+```cpp
+class GenericObject{
+//...
+}
+int main(){
+GenericObject A, B, C;
+C = A + B; //ao invés de C = soma(A,B)
+}
+```
+
+### Conceitos Básicos: 
+
+Funções com nomes especiais
+- Palavra-chave operator seguida do símbolo que se deseja sobrecarregar
+- Exige tipo de retorno, lista de parâmetros e corpo
+
+Possui o mesmo número de parâmetros do operador original
+- Operador unário – um parâmetro
+- Operador binário – dois parâmetros
+  - Operando da esquerda deve ser o primeiro parâmetro
+
+Quando são definidos como métodos, primeiro parâmetro recebe o
+ponteiro this
+
+Funções devem ou ser membros de classes ou possuir ao menos um
+parâmetro de classe
+
+```cpp
+// erro: tentativa de redefinição do operador de soma para inteiros
+int operator+(int, int);
+```
+
+Nem todos os operadores podem ser sobrecarregados
+
+Somente operadores existentes podem ser sobrecarregados
+  - Não é possível inventar novos operadores (p.ex operator**)
+
+Alguns operadores são unários e binários (+, -, *, &)
+
+Ordens de precedência são mantidas
+
+![SobrecargaDeOperadores](./../assets/30.png)
+
+### Chamada de Operador Sobrecarregado:
+Pode ser chamado utilizando o operador como é comumente
+utilizado ou como uma função tradicional
+
+```cpp
+// equivalent calls to a nonmember operator function
+data1 + data2; // normal expression
+operator+(data1, data2); // equivalent function call
+```
+
+O mesmo vale para sobrecarga como método de classe
+
+```cpp
+data1 += data2; // expression-based ‘‘call’’
+data1.operator+=(data2); // equivalent call
+```
+
+### Operadores não recomendados
+
+Operadores lógicos (&& e ||) sempre avaliam o operando da esquerda
+antes do da direita
+
+O operando da direita será avaliado sse o operando da esquerda não
+determina o resultado
+
+A sobrecarga destes operadores não preserva estas propriedades
+
+### Operador de saída <<
+
+Permite configurar uma saída padrão para objetos de uma classe:
+
+```cpp 
+ostream &operator<<(ostream &os, const Sales_data &item)
+{
+  os << item.isbn() << " " << item.units_sold << " "
+  << item.revenue << " " << item.avg_price();
+  return os;
+}
+```
+
+### Operador de entrada >>
+
+Define como se dá a entrada padrão para a classe que o sobrecarrega
+
+```cpp 
+istream &operator>>(istream &is, Sales_data &item)
+{
+  double price; // no need to initialize;
+  is >> item.bookNo >> item.units_sold >> price;
+  
+  if (is) // check that the inputs succeeded
+    item.revenue = item.units_sold * price;
+  else
+    item = Sales_data(); // input failed: default state
+
+return is;
+}
+```
+
+### Operadores aritméticos:
+
+Normalmente são definidos como funções não-membros
+
+```cpp 
+// assumes that both objects refer to the same book
+Sales_data
+operator+(const Sales_data &lhs, const Sales_data &rhs)
+{
+  Sales_data sum = lhs; // copy data members from lhs into sum
+  sum.units_sold += rhs.units_sold;
+  sum.revenue += rhs.revenue;
+return sum;
+}
+```
+
+### Operadores de igualdade:
+
+Normalmente, verifica se membros de objetos são idênticos
+
+```cpp 
+bool operator==(const Sales_data &lhs, const Sales_data &rhs)
+{
+  return lhs.isbn() == rhs.isbn() &&
+  lhs.units_sold == rhs.units_sold &&
+  lhs.revenue == rhs.revenue;
+}
+
+bool operator!=(const Sales_data &lhs, const Sales_data &rhs)
+{
+return !(lhs == rhs);
+}
+```
+
+### Operadores relacionais:
+Definidos quando existir definição lógica desta relação na classe
+
+### Operadores de atribuição:
+Uma classe pode definir operador de atribuição adicional para
+flexibilizar os tipos de operandos permitidos do lado direito.
+
+```cpp 
+StrVec &StrVec::operator=(initializer_list<string> il)
+{
+  // alloc_n_copy allocates space and copies elements from the given range
+  auto data = alloc_n_copy(il.begin(), il.end());
+  free();
+  // destroy the elements in this object and free the space
+  elements = data.first; // update data members to point to the new space
+  first_free = cap = data.second;
+return *this;
+}
+```
+
+### Operadores compostos:
+Devem retornar uma referência para o operando da esquerda
+
+```cpp 
+Sales_data& Sales_data::operator+=(const Sales_data &rhs)
+{
+  units_sold += rhs.units_sold;
+  revenue += rhs.revenue;
+return *this;
+}
+```
+
+### Operador de subscrição:
+
+Classes que representam coleções de dados podem sobrescrever o
+operador para recuperar por posição []
+
+```cpp 
+class StrVec {
+public:
+  std::string& operator[](std::size_t n)
+  { return elements[n]; }
+  const std::string& operator[](std::size_t n) const
+  { return elements[n]; }
+
+private:
+  std::string *elements;
+  // pointer to the first element in the array
+};
+```
+
+## Templates
+
+Uma “fórmula” para a criação de classes ou funções
+
+Ex: Quando usamos um tipo genérico como vector ou uma função genérica
+como find
+
+- Suprimos a informação necessária para transformá-los numa classe ou função
+específica
+
+- Tal transformação de um modelo genérico para um objeto concreto se dá
+durante a compilação
+
+### Definindo um Template:
+
+Problema: escrever uma função para comparar dois valores que
+podem ser de diferentes tipos.
+
+  - Possível solução: sobrescrita da função para diferentes tipos
+
+```cpp
+int compare(const string &v1, const string &v2)
+{
+  if (v1 < v2) return -1;
+  if (v2 < v1) return 1;
+  return 0;
+}
+
+int compare(const double &v1, const double &v2)
+{
+  if (v1 < v2) return -1;
+  if (v2 < v1) return 1;
+  return 0;
+}
+```
+
+  - Solução mais adequada: definimos uma função template
+    - Uma fórmula da qual podemos gerar versões com tipos específicos:
+
+```cpp
+template <typename T>
+int compare(const T &v1, const T &v2)
+{
+  if (v1 < v2) return -1;
+  if (v2 < v1) return 1;
+  return 0;
+}
+```
+
+### Instanciação do Template:
+
+O compilador usa os argumentos da chamada para deduzir os
+argumentos do template
+
+```cpp
+cout << compare(1, 0) << endl; // T is int
+```
+
+O compilador então “instancia” um template, substituindo T pelo tipo
+
+```cpp
+int compare(const string &v1, const string &v2)
+{
+  if (v1 < v2) return -1;
+  if (v2 < v1) return 1;
+  return 0;
+}
+```
+
+### Parâmetros de tipo:
+
+Os parâmetros de tipo também podem ser usados como tipo de
+retorno...
+
+```cpp
+template <typename T> T foo(T* p)
+{
+  T tmp = *p; // tmp will have the type to which p points
+  // . . .
+  return tmp;
+}
+```
+
+... e declarados mais de um (pode ser usado class para declaração)
+
+```cpp
+template <typename T, class U> calc (const T&, const U&);
+```
+### Parâmetros não-tipo:
+
+Além de passarmos tipos como parâmetros, é possível passar
+parâmetros que não representam tipos, mas valores const:
+
+```cpp 
+template<unsigned N, unsigned M>
+
+int compare(const char (&p1)[N], const char (&p2)[M])
+{
+  return strcmp(p1, p2);
+}
+
+// Chamada:
+compare("hi","mom");
+
+// Instanciação:
+int compare(const char (&p1)[3], const char (&p2)[4])
+
+```
+
+### Generalizando ainda mais:
+
+A implementação de compare apresentou dois princípios na escrita
+de código genérico:
+
+- Parâmetros são referências para const
+  - Evitam cópia e permitem qualquer tipo que não possa ser copiado
+
+
+- Os testes na comparação utilizam somente o operador <
+  - Evita tipos que não suportam variedades de operadores
+
+
+Versão ainda mais genérica:
+
+```cpp 
+template <typename T> int compare(const T &v1, const T &v2)
+{
+  if (less<T>()(v1, v2)) return -1;
+  if (less<T>()(v2, v1)) return 1;
+  return 0;
+}
+```
+
+### Templates de classes:
+
+Permite que atributos de uma classe possam ter seus tipos definidos
+posteriormente
+
+```cpp 
+template <class T>
+class Exemplo
+{
+public:
+  Exemplo();
+  T& getProduto();
+  void setProduto(const T &produto);
+  void imprimeNomeObjeto();
+
+private:
+  T _produto;
+  static int _indice;
+  std::string _nome;
+};
+```
+
+Usamos o parâmetro de tipo tanto em declarações como em retornos
+
+```cpp 
+template <class T>
+Exemplo<T>::Exemplo()
+{
+  _indice++;
+  _nome = "Objeto ";
+  std::ostringstream ostr;
+  ostr << _indice;
+  _nome += ostr.str();
+}
+```
+
+```cpp 
+template <class T>
+T& Exemplo<T>::getProduto()
+{
+  return _produto;
+}
+```
+
+```cpp 
+template <class T>
+void Exemplo<T>::setProduto(const T &produto)
+{
+  _produto = produto;
+}
+```
+
+```cpp 
+template <class T>
+void Exemplo<T>::imprimeNomeObjeto()
+{
+  std::cout << "Nome: " << _nome << std::endl;
+}
+```
+
+
+### Template de classes - instanciação:
+
+Cada instanciação de uma classe template constitui uma classe
+independente;
+
+Cada novo tipo não possui relacionamento com outros tipos
+declarados, mas mesmos tipos serão derivados de mesma classe
+
+```cpp 
+Exemplo<int> teste1;
+Exemplo<char*> teste2;
+Exemplo<char*> teste3;
+
+teste1.imprimeNomeObjeto(); // vai criar o objeto nº 1 do tipo int
+teste2.imprimeNomeObjeto(); // vai criar o objeto nº 1 do tipo char*
+teste3.imprimeNomeObjeto(); // vai criar o objeto nº 2 do tipo char*
+```
