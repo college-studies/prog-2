@@ -879,3 +879,110 @@ teste1.imprimeNomeObjeto(); // vai criar o objeto nº 1 do tipo int
 teste2.imprimeNomeObjeto(); // vai criar o objeto nº 1 do tipo char*
 teste3.imprimeNomeObjeto(); // vai criar o objeto nº 2 do tipo char*
 ```
+
+## Tratamento e exceções
+
+### Definição:
+
+"Permite que partes desenvolvidas independentemente de um programa se comuniquem e tratem de problemas que surgem em tempo de execução"
+
+  - Parte do programa pode detectar um problema e passar a tarefa de resolvê-lo para outra parte
+  - A parte que detecta não precisa saber nada sobre a parte que trata e vice versa
+
+
+### Vantagens no tratamento de exceções:
+
+  - Separação de código
+  - Rastreamento do erro
+  - Recuperação de falhas
+  - Prototipação
+
+### Como Funciona ? 
+O tratamento ocorre mediante a cooperação entre partes do programa para detecção e tratamento em diferentes blocos: 
+
+  - throw: Bloco que compreende a parte que detecta o erro, lançando-o
+  - try: Bloco que trata o erro lançado, começando com esta palavra e encerrando com a cláusula *catch*
+  - Classes de exceção: Utilizadas para passar a informação sobre o que aconteceu entre uma excecão lançada e sua captura
+
+#### A expressão throw:
+
+Determina qual o tipo de exceção que será lançada, dependendo do possível erro envolvido
+
+Ex sem tratamento: 
+
+```cpp
+Sales_item item1, item2;
+cin >> item1 >> item2;
+// check that item1 and item2 represent the same book
+if (item1.isbn() == item2.isbn()) {
+  cout << item1 + item2 << endl;
+  return 0;
+} else {
+  cerr << "Data must refer to same ISBN"<< endl;
+  return -1; // indicate failure
+}
+```
+
+Exemplo com tratamento:
+
+```cpp
+// first check that the data are for the same item
+if (item1.isbn() != item2.isbn())
+  throw runtime_error("Data must refer to same ISBN");
+  // if we’re still here, the ISBNs are the same
+cout << item1 + item2 << endl;
+```
+
+#### O bloco try:
+
+Define a lista de cláusulas catch para capturar exceções lançadas:
+
+```cpp
+try {
+  program-statements
+} catch (exception-declaration) {
+  handler-statements
+} catch (exception-declaration) {
+  handler-statements
+} // . . .
+```
+
+Exemplo completo : 
+
+```cpp
+while (cin >> item1 >> item2) {
+  try {
+    if (item1.isbn() != item2.isbn())
+    throw runtime_error("Data must refer to same ISBN");
+    cout << item1 + item2 << endl;
+  } catch (runtime_error err) {
+    // remind the user that the ISBNs must match and prompt for another
+    cout << err.what() << "\nTry Again? Enter y or n" << endl;
+    char c;
+    cin >> c;
+    if (!cin || c == ’n’)
+    break;
+    // break out of the while loop
+    }
+}
+```
+
+### O objeto exception:
+
+- Um objeto é inicializado quando uma exceção é lançada e persite até que seja encontrando um catch
+- Cuidados com o lançamento de ponteiros:
+  - Passar ponteiros juntos do objeto pode gerar falha de memória quando alcancem o catch correspondente
+- Se nenhum catch é encontrado, o programa é terminado.
+
+### Exceções padrão:
+C++ define várias classes para reportar problemas encontrados, distribuídas entre quantro bibliotecas:
+
+  - exception: define exceções genéricas, comunicando uma falha mas sem prover informação adicional
+  - stdexcept: define classes de exceção de propósito geral
+  - new: define exceção do tipo bad_alloc
+  - type_info: define exceção do tipo bad_cast
+
+### Exceções da biblioteca stdexcept:
+![Exceções](./../assets/31.png)
+### Hierarquia de Classes
+![Exceções](./../assets/32.png)
